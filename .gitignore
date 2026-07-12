@@ -52,6 +52,8 @@ pnpm-debug.log*
 docker/data/
 postgres-data/
 redis-data/
+backend/central_pet.db
+*.db
 
 # Coverage / misc
 coverage/

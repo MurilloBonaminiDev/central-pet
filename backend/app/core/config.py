@@ -1,13 +1,21 @@
 """Application settings loaded from environment variables."""
 
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_BACKEND_DIR = Path(__file__).resolve().parents[2]
+_ROOT_DIR = _BACKEND_DIR.parent
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(
+            str(_ROOT_DIR / ".env"),
+            str(_BACKEND_DIR / ".env"),
+            ".env",
+        ),
         env_file_encoding="utf-8",
         case_sensitive=True,
         extra="ignore",
@@ -22,11 +30,11 @@ class Settings(BaseSettings):
     API_PREFIX: str = "/api/v1"
     CORS_ORIGINS: str = "http://localhost:5173,http://localhost:5174"
 
-    DATABASE_URL: str = (
-        "postgresql+psycopg://central_pet:change_me_strong_password@localhost:5432/central_pet"
-    )
+    # Local-dev default: SQLite (no Docker / Postgres required).
+    DATABASE_URL: str = f"sqlite:///{(_BACKEND_DIR / 'central_pet.db').as_posix()}"
 
-    REDIS_URL: str = "redis://localhost:6379/0"
+    # Auth does not require Redis yet; leave empty/memory to skip a live server.
+    REDIS_URL: str = "memory://"
 
     JWT_SECRET_KEY: str = "change_me_to_a_long_random_secret"
     JWT_ALGORITHM: str = "HS256"
@@ -38,6 +46,11 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> list[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
+
+    @property
+    def redis_enabled(self) -> bool:
+        url = (self.REDIS_URL or "").strip().lower()
+        return bool(url) and not url.startswith(("memory", "disabled", "none", "off"))
 
 
 @lru_cache

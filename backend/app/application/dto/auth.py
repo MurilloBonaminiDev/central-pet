@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, Field
 
 
 class TenantOptionDTO(BaseModel):
@@ -19,7 +19,7 @@ class TokenPairDTO(BaseModel):
 
 class SessionUserDTO(BaseModel):
     id: str
-    email: EmailStr
+    email: str
     full_name: str
     tenant_id: str
     tenant_name: str

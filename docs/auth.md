@@ -29,6 +29,29 @@
 
 ## Setup local
 
+### Sem Docker (recomendado no Windows sem virtualização)
+
+Usa SQLite + Redis desligado (`REDIS_URL=memory://`).
+
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+alembic upgrade head
+python -m scripts.seed_auth
+uvicorn app.main:app --reload --port 8000
+```
+
+Garanta no `.env` na raiz:
+
+```env
+DATABASE_URL=sqlite:///./central_pet.db
+REDIS_URL=memory://
+```
+
+### Com Docker (Postgres + Redis)
+
 ```bash
 # Postgres + Redis
 docker compose up -d postgres redis
