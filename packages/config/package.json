@@ -1,0 +1,10 @@
+{
+  "name": "@central-pet/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./typescript/*": "./typescript/*",
+    "./eslint/base.js": "./eslint/base.js",
+    "./tailwind/preset.js": "./tailwind/preset.js"
+  }
+}

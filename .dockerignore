@@ -1,0 +1,14 @@
+.git
+.venv
+venv
+node_modules
+dist
+build
+coverage
+docker/data
+**/__pycache__
+*.pyc
+.env
+.env.local
+*.md
+.pnpm-store

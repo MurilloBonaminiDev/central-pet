@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+coverage
+.pnpm-store
+pnpm-lock.yaml
+backend/.venv
+backend/venv
+docker/data
+*.min.js
+*.min.css

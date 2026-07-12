@@ -1,0 +1,25 @@
+{
+  "name": "central-pet",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Central Pet — SaaS multi-tenant para clínicas veterinárias e pet shops",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev:web": "pnpm --filter @central-pet/web dev",
+    "dev:admin": "pnpm --filter @central-pet/admin dev",
+    "build": "pnpm -r --filter \"./apps/*\" build",
+    "build:web": "pnpm --filter @central-pet/web build",
+    "build:admin": "pnpm --filter @central-pet/admin build",
+    "lint": "pnpm -r --filter \"./apps/*\" --filter \"./packages/*\" lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md,yml,yaml}\"",
+    "typecheck": "pnpm -r --filter \"./apps/*\" --filter \"./packages/*\" typecheck"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

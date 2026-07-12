@@ -1,0 +1,355 @@
+/**
+ * Central Pet Design System — Global Tokens
+ * Light: :root / [data-theme='light']
+ * Dark:  [data-theme='dark'] / .dark
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* --- Brand (teal / seafoam) --- */
+  --color-brand-50: #eef8f5;
+  --color-brand-100: #d5efe8;
+  --color-brand-200: #a9ddd1;
+  --color-brand-300: #74c4b3;
+  --color-brand-400: #3ea994;
+  --color-brand-500: #1f8a78;
+  --color-brand-600: #177064;
+  --color-brand-700: #145a51;
+  --color-brand-800: #134840;
+  --color-brand-900: #113c36;
+  --color-brand-950: #0a2421;
+
+  /* --- Accent (honey / amber — CTAs) --- */
+  --color-accent-50: #fff8eb;
+  --color-accent-100: #ffefc6;
+  --color-accent-200: #ffdb87;
+  --color-accent-300: #ffc14a;
+  --color-accent-400: #ffa61f;
+  --color-accent-500: #f08c00;
+  --color-accent-600: #d46e00;
+  --color-accent-700: #a85104;
+  --color-accent-800: #893f0c;
+  --color-accent-900: #71350e;
+
+  /* --- Neutrals --- */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f6f7f8;
+  --color-neutral-100: #eceef1;
+  --color-neutral-200: #d6dae1;
+  --color-neutral-300: #b3bbc6;
+  --color-neutral-400: #8893a3;
+  --color-neutral-500: #687385;
+  --color-neutral-600: #525c6c;
+  --color-neutral-700: #434a58;
+  --color-neutral-800: #393f4a;
+  --color-neutral-900: #32363f;
+  --color-neutral-950: #21242a;
+
+  /* --- Semantic --- */
+  --color-success-50: #ecfdf4;
+  --color-success-500: #12a35c;
+  --color-success-600: #0d8349;
+  --color-success-700: #0b683c;
+  --color-warning-50: #fff7e8;
+  --color-warning-500: #e09b16;
+  --color-warning-600: #c07f0d;
+  --color-warning-700: #9a650c;
+  --color-danger-50: #fef2f2;
+  --color-danger-500: #dc3d3d;
+  --color-danger-600: #c02b2b;
+  --color-danger-700: #9f2424;
+  --color-info-50: #eef6ff;
+  --color-info-500: #2f7fd1;
+  --color-info-600: #2166b0;
+  --color-info-700: #1c528e;
+
+  /* --- Surfaces & text --- */
+  --color-bg: var(--color-neutral-50);
+  --color-bg-elevated: var(--color-neutral-0);
+  --color-bg-muted: var(--color-neutral-100);
+  --color-bg-subtle: #f0f3f5;
+  --color-bg-inverse: var(--color-neutral-900);
+
+  --color-fg: var(--color-neutral-900);
+  --color-fg-muted: var(--color-neutral-600);
+  --color-fg-subtle: var(--color-neutral-500);
+  --color-fg-inverse: var(--color-neutral-0);
+  --color-fg-link: var(--color-brand-600);
+
+  --color-border: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+  --color-border-focus: var(--color-brand-500);
+
+  --color-overlay: rgb(33 36 42 / 48%);
+
+  --color-primary: var(--color-brand-600);
+  --color-primary-hover: var(--color-brand-700);
+  --color-primary-fg: var(--color-neutral-0);
+
+  --color-secondary: var(--color-neutral-100);
+  --color-secondary-hover: var(--color-neutral-200);
+  --color-secondary-fg: var(--color-neutral-800);
+
+  --color-ring: rgb(31 138 120 / 35%);
+
+  /* --- Sidebar / Nav --- */
+  --color-sidebar-bg: #123832;
+  --color-sidebar-fg: #e7f4f1;
+  --color-sidebar-muted: #9bc4bc;
+  --color-sidebar-hover: rgb(255 255 255 / 8%);
+  --color-sidebar-active: rgb(255 255 100 / 0%);
+  --color-sidebar-active-bg: rgb(255 255 255 / 12%);
+  --color-navbar-bg: var(--color-bg-elevated);
+  --color-navbar-border: var(--color-border);
+
+  /* --- Typography --- */
+  --font-sans: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* --- Spacing scale --- */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* --- Radius (avoid pill-everything) --- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* --- Elevation (single soft shadow) --- */
+  --shadow-sm: 0 1px 2px rgb(33 36 42 / 6%);
+  --shadow-md: 0 4px 14px rgb(33 36 42 / 8%);
+  --shadow-lg: 0 12px 32px rgb(33 36 42 / 12%);
+
+  /* --- Motion --- */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* --- Z-index --- */
+  --z-dropdown: 40;
+  --z-sticky: 50;
+  --z-overlay: 60;
+  --z-modal: 70;
+  --z-toast: 80;
+
+  /* --- Control sizes --- */
+  --control-height-sm: 2rem;
+  --control-height-md: 2.5rem;
+  --control-height-lg: 3rem;
+  --sidebar-width: 16.5rem;
+  --sidebar-width-collapsed: 4.5rem;
+  --navbar-height: 3.75rem;
+}
+
+[data-theme='dark'],
+.dark {
+  color-scheme: dark;
+
+  --color-bg: #16191e;
+  --color-bg-elevated: #1e232a;
+  --color-bg-muted: #262c35;
+  --color-bg-subtle: #1a1f26;
+  --color-bg-inverse: #f6f7f8;
+
+  --color-fg: #eef0f3;
+  --color-fg-muted: #a7b0bd;
+  --color-fg-subtle: #8791a0;
+  --color-fg-inverse: #21242a;
+  --color-fg-link: var(--color-brand-300);
+
+  --color-border: #323943;
+  --color-border-strong: #434c59;
+  --color-border-focus: var(--color-brand-400);
+
+  --color-overlay: rgb(0 0 0 / 62%);
+
+  --color-primary: var(--color-brand-400);
+  --color-primary-hover: var(--color-brand-300);
+  --color-primary-fg: #0a2421;
+
+  --color-secondary: #2a313b;
+  --color-secondary-hover: #353d49;
+  --color-secondary-fg: #eef0f3;
+
+  --color-ring: rgb(62 169 148 / 40%);
+
+  --color-success-50: #0f2a1d;
+  --color-warning-50: #2a2110;
+  --color-danger-50: #2a1414;
+  --color-info-50: #122033;
+
+  --color-sidebar-bg: #0d1f1c;
+  --color-sidebar-fg: #e7f4f1;
+  --color-sidebar-muted: #7eaaa2;
+  --color-sidebar-hover: rgb(255 255 255 / 7%);
+  --color-sidebar-active-bg: rgb(62 169 148 / 18%);
+  --color-navbar-bg: var(--color-bg-elevated);
+  --color-navbar-border: var(--color-border);
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 35%);
+  --shadow-md: 0 4px 14px rgb(0 0 0 / 40%);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 48%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-weight: var(--font-regular);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-fg-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-brand-400) 35%, transparent);
+  color: var(--color-fg);
+}
+
+/* Utility classes used by DS components */
+.cp-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+@keyframes cp-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes cp-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cp-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cp-drawer-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes cp-drawer-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes cp-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

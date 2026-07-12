@@ -1,0 +1,48 @@
+@keyframes cp-dash-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cp-bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes cp-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.cp-dash-rise {
+  animation: cp-dash-rise 520ms var(--ease-emphasized) both;
+}
+
+.cp-bar-grow {
+  transform-origin: bottom;
+  animation: cp-bar-grow 700ms var(--ease-emphasized) both;
+}
+
+.cp-hero-sheen {
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgb(255 255 255 / 12%) 40%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: cp-shimmer 7s linear infinite;
+}

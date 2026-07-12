@@ -1,0 +1,6 @@
+/**
+ * Design System globals — keep app CSS thin; tokens live in @central-pet/ui.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

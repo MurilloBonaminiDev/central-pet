@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1
+
+FROM node:20-alpine AS deps
+WORKDIR /app
+RUN corepack enable
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* .npmrc ./
+COPY apps ./apps
+COPY packages ./packages
+RUN pnpm install --frozen-lockfile || pnpm install
+
+FROM deps AS web-dev
+WORKDIR /app
+EXPOSE 5173
+CMD ["pnpm", "--filter", "@central-pet/web", "dev", "--host", "0.0.0.0"]
+
+FROM deps AS admin-dev
+WORKDIR /app
+EXPOSE 5174
+CMD ["pnpm", "--filter", "@central-pet/admin", "dev", "--host", "0.0.0.0", "--port", "5174"]

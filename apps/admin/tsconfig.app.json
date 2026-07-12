@@ -1,0 +1,18 @@
+{
+  "extends": "../../packages/config/typescript/react-app.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@central-pet/ui": ["../../packages/ui/src"],
+      "@central-pet/shared": ["../../packages/shared/src"],
+      "@central-pet/domain": ["../../packages/domain/src"],
+      "@central-pet/application": ["../../packages/application/src"],
+      "@central-pet/infrastructure": ["../../packages/infrastructure/src"]
+    }
+  },
+  "include": ["src"]
+}
