@@ -11,12 +11,11 @@ _ROOT_DIR = _BACKEND_DIR.parent
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=(
-            str(_ROOT_DIR / ".env"),
-            str(_BACKEND_DIR / ".env"),
-            ".env",
-        ),
+        # Only backend/.env — monorepo root .env keeps local SQLite for frontend/dev
+        # and must not override production Supabase URL when running the API.
+        env_file=str(_BACKEND_DIR / ".env"),
         env_file_encoding="utf-8",
+        env_ignore_empty=True,
         case_sensitive=True,
         extra="ignore",
     )

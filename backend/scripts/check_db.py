@@ -1,9 +1,19 @@
 from sqlalchemy import text
 
-from app.infrastructure.database.session import DATABASE_URL, SessionLocal
+from app.core.config import settings
+from app.infrastructure.database.session import DATABASE_URL, SessionLocal, normalize_database_url
 
-print("dialect", DATABASE_URL.split("://", 1)[0])
-print("ssl", "sslmode=require" in DATABASE_URL)
+raw = settings.DATABASE_URL
+normalized = normalize_database_url(raw)
+print("raw_starts", raw[:40].replace("\n", " "))
+print("dialect", normalized.split("://", 1)[0])
+print("is_sqlite", normalized.startswith("sqlite"))
+print("has_placeholder", "[YOUR-PASSWORD]" in raw or "SUA_URL" in raw)
+print("ssl", "sslmode=require" in normalized)
+
+if normalized.startswith("sqlite"):
+    print("ERR_HINT Use Supabase URI in backend/.env — root .env still points to SQLite.")
+    raise SystemExit(1)
 
 db = SessionLocal()
 try:
@@ -20,6 +30,6 @@ try:
     except Exception as exc:  # noqa: BLE001
         print("users_err", type(exc).__name__, str(exc)[:200])
 except Exception as exc:  # noqa: BLE001
-    print("ERR", type(exc).__name__, str(exc)[:300])
+    print("ERR", type(exc).__name__, str(exc)[:400])
 finally:
     db.close()

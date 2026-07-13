@@ -11,9 +11,19 @@ from app.core.config import settings
 
 def normalize_database_url(url: str) -> str:
     """Ensure Postgres URLs work with psycopg3 + Supabase SSL."""
-    raw = (url or "").strip()
+    raw = (url or "").strip().strip('"').strip("'")
     if not raw:
         return raw
+
+    # Fix accidental double scheme from copy/paste.
+    while "postgresql+psycopg://postgresql+psycopg://" in raw:
+        raw = raw.replace(
+            "postgresql+psycopg://postgresql+psycopg://",
+            "postgresql+psycopg://",
+            1,
+        )
+    while "postgresql://postgresql://" in raw:
+        raw = raw.replace("postgresql://postgresql://", "postgresql://", 1)
 
     if raw.startswith("postgres://"):
         raw = "postgresql://" + raw[len("postgres://") :]
