@@ -14,7 +14,8 @@ class Settings(BaseSettings):
         # Only backend/.env — monorepo root .env keeps local SQLite for frontend/dev
         # and must not override production Supabase URL when running the API.
         env_file=str(_BACKEND_DIR / ".env"),
-        env_file_encoding="utf-8",
+        # utf-8-sig strips Windows PowerShell BOM so DATABASE_URL is read correctly
+        env_file_encoding="utf-8-sig",
         env_ignore_empty=True,
         case_sensitive=True,
         extra="ignore",
