@@ -43,6 +43,11 @@ class Settings(BaseSettings):
 
     TENANT_HEADER: str = "X-Tenant-Id"
 
+    # WhatsApp inbound webhooks — disabled until provider credentials are configured.
+    WHATSAPP_WEBHOOKS_ENABLED: bool = False
+    WHATSAPP_VERIFY_TOKEN: str = ""
+    WHATSAPP_APP_SECRET: str = ""
+
     @property
     def cors_origins_list(self) -> list[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]

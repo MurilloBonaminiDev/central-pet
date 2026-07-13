@@ -5,6 +5,7 @@
 | Method | Path | Descrição |
 |--------|------|-----------|
 | POST | `/api/v1/auth/login` | Login (com seleção de empresa se multi-tenant) |
+| POST | `/api/v1/auth/register` | Cria clínica + usuário administrador e inicia sessão |
 | POST | `/api/v1/auth/refresh` | Renova access/refresh tokens |
 | POST | `/api/v1/auth/logout` | Revoga refresh token / sessão |
 | POST | `/api/v1/auth/forgot-password` | Solicita redefinição |
@@ -75,5 +76,7 @@ Demo users (senha `Senha@123`):
 
 ## Frontend
 
-Rotas: `/login`, `/esqueci-senha`, `/redefinir-senha`, `/sessao`  
+Rotas: `/login`, `/criar-conta`, `/esqueci-senha`, `/redefinir-senha`, `/sessao`  
 Guards: `GuestRoute`, `ProtectedRoute` (+ roles)
+
+Cadastro (`/criar-conta`): cria tenant + membership `administrator` e autentica automaticamente.

@@ -20,6 +20,12 @@ type AuthContextValue = {
   isBootstrapping: boolean;
   pendingTenants: TenantOption[];
   login: (email: string, password: string, tenantId?: string) => Promise<LoginOutcome>;
+  register: (input: {
+    clinicName: string;
+    fullName: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
   logout: () => Promise<void>;
   hasRole: (...roles: TenantRole[]) => boolean;
   clearPendingTenants: () => void;
@@ -75,6 +81,24 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return 'authenticated' as const;
   }, []);
 
+  const register = useCallback(
+    async (input: {
+      clinicName: string;
+      fullName: string;
+      email: string;
+      password: string;
+    }) => {
+      const result = await authApi.register(input);
+      if (!result.tokens || !result.session) {
+        throw new Error('Resposta de cadastro inválida');
+      }
+      tokenStorage.setSession(result.tokens, result.session);
+      setSession(result.session);
+      setPendingTenants([]);
+    },
+    [],
+  );
+
   const logout = useCallback(async () => {
     const refresh = tokenStorage.getRefreshToken();
     try {
@@ -109,11 +133,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
       isBootstrapping,
       pendingTenants,
       login,
+      register,
       logout,
       hasRole,
       clearPendingTenants,
     }),
-    [session, isBootstrapping, pendingTenants, login, logout, hasRole, clearPendingTenants],
+    [session, isBootstrapping, pendingTenants, login, register, logout, hasRole, clearPendingTenants],
   );
 
   return createElement(AuthContext.Provider, { value }, children);

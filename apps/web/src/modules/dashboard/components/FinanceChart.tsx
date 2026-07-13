@@ -1,5 +1,5 @@
-import type { ChartPoint } from '../data/mock';
-import { dashboardFormatters } from '../data/mock';
+import type { ChartPoint } from '@central-pet/shared';
+import { formatBRL } from '../api';
 
 type Props = {
   title: string;
@@ -10,6 +10,7 @@ type Props = {
 export function FinanceChart({ title, subtitle, data }: Props) {
   const max = Math.max(...data.map((d) => d.value), 1);
   const total = data.reduce((sum, d) => sum + d.value, 0);
+  const hasData = data.some((d) => d.value > 0);
   const width = 640;
   const height = 240;
   const padX = 32;
@@ -24,7 +25,7 @@ export function FinanceChart({ title, subtitle, data }: Props) {
   });
 
   const line = points.map((p) => `${p.x},${p.y}`).join(' ');
-  const area = `${points[0]?.x},${padY + innerH} ${line} ${points.at(-1)?.x},${padY + innerH}`;
+  const area = `${points[0]?.x ?? padX},${padY + innerH} ${line} ${points.at(-1)?.x ?? padX},${padY + innerH}`;
 
   return (
     <section className="cp-dash-rise relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5 shadow-[var(--shadow-sm)] md:p-6">
@@ -41,67 +42,75 @@ export function FinanceChart({ title, subtitle, data }: Props) {
         </div>
         <div className="text-right">
           <p className="text-xs uppercase tracking-[0.06em] text-[var(--color-fg-subtle)]">
-            Semana
+            Total período
           </p>
           <p className="font-display text-lg font-semibold text-[var(--color-brand-700)] dark:text-[var(--color-brand-300)]">
-            {dashboardFormatters.formatBRL(total)}
+            {formatBRL(total)}
           </p>
         </div>
       </header>
-      <div className="relative overflow-x-auto">
-        <svg viewBox={`0 0 ${width} ${height}`} className="h-60 w-full min-w-[30rem]" role="img">
-          <defs>
-            <linearGradient id="financeFillPremium" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--color-brand-400)" stopOpacity="0.42" />
-              <stop offset="100%" stopColor="var(--color-brand-400)" stopOpacity="0.02" />
-            </linearGradient>
-          </defs>
-          {[0.25, 0.5, 0.75, 1].map((ratio) => {
-            const y = padY + innerH * (1 - ratio);
-            return (
-              <line
-                key={ratio}
-                x1={padX}
-                x2={width - padX}
-                y1={y}
-                y2={y}
-                stroke="var(--color-border)"
-                strokeDasharray="5 7"
-              />
-            );
-          })}
-          <polygon points={area} fill="url(#financeFillPremium)" />
-          <polyline
-            points={line}
-            fill="none"
-            stroke="var(--color-brand-600)"
-            strokeWidth="3.25"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />          {points.map((p) => (
-            <g key={p.label}>
-              <circle
-                cx={p.x}
-                cy={p.y}
-                r="5"
-                fill="var(--color-bg-elevated)"
-                stroke="var(--color-accent-500)"
-                strokeWidth="2.75"
-              />
-              <text
-                x={p.x}
-                y={height - 8}
-                textAnchor="middle"
-                fill="var(--color-fg-muted)"
-                fontSize="11"
-                fontWeight="600"
-              >
-                {p.label}
-              </text>
-            </g>
-          ))}
-        </svg>
-      </div>
+
+      {!hasData ? (
+        <p className="relative py-16 text-center text-sm text-[var(--color-fg-muted)]">
+          Ainda não há receita registrada (serviços concluídos).
+        </p>
+      ) : (
+        <div className="relative overflow-x-auto">
+          <svg viewBox={`0 0 ${width} ${height}`} className="h-60 w-full min-w-[30rem]" role="img">
+            <defs>
+              <linearGradient id="financeFillPremium" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--color-brand-400)" stopOpacity="0.42" />
+                <stop offset="100%" stopColor="var(--color-brand-400)" stopOpacity="0.02" />
+              </linearGradient>
+            </defs>
+            {[0.25, 0.5, 0.75, 1].map((ratio) => {
+              const y = padY + innerH * (1 - ratio);
+              return (
+                <line
+                  key={ratio}
+                  x1={padX}
+                  x2={width - padX}
+                  y1={y}
+                  y2={y}
+                  stroke="var(--color-border)"
+                  strokeDasharray="5 7"
+                />
+              );
+            })}
+            <polygon points={area} fill="url(#financeFillPremium)" />
+            <polyline
+              points={line}
+              fill="none"
+              stroke="var(--color-brand-600)"
+              strokeWidth="3.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {points.map((p) => (
+              <g key={p.label}>
+                <circle
+                  cx={p.x}
+                  cy={p.y}
+                  r="5"
+                  fill="var(--color-bg-elevated)"
+                  stroke="var(--color-accent-500)"
+                  strokeWidth="2.75"
+                />
+                <text
+                  x={p.x}
+                  y={height - 8}
+                  textAnchor="middle"
+                  fill="var(--color-fg-muted)"
+                  fontSize="11"
+                  fontWeight="600"
+                >
+                  {p.label}
+                </text>
+              </g>
+            ))}
+          </svg>
+        </div>
+      )}
     </section>
   );
 }

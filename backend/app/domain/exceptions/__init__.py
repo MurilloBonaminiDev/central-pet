@@ -32,3 +32,18 @@ class TokenError(DomainError):
 class PasswordResetError(DomainError):
     def __init__(self, message: str = "Solicitação de redefinição inválida") -> None:
         super().__init__(message)
+
+
+class ConflictError(DomainError):
+    def __init__(self, message: str = "Recurso já existe") -> None:
+        super().__init__(message)
+
+
+class ValidationError(DomainError):
+    def __init__(self, message: str = "Dados inválidos") -> None:
+        super().__init__(message)
+
+
+class NotFoundError(DomainError):
+    def __init__(self, message: str = "Recurso não encontrado") -> None:
+        super().__init__(message)

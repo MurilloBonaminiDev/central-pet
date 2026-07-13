@@ -4,6 +4,8 @@ export { ProtectedRoute, GuestRoute } from './guards';
 export { authApi } from './api';
 export { tokenStorage } from './storage';
 export { LoginPage } from './pages/LoginPage';
+export { CadastroPage } from './pages/CadastroPage';
+export { RegisterPage } from './pages/RegisterPage';
 export { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 export { ResetPasswordPage } from './pages/ResetPasswordPage';
 export { SessionPage } from './pages/SessionPage';

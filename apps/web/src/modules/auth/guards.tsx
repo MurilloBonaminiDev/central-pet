@@ -1,8 +1,18 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { ROUTES } from '@app/router/paths';
 import { useAuth } from './AuthProvider';
 import type { TenantRole } from './types';
 
-export function ProtectedRoute({ roles }: { roles?: TenantRole[] }) {
+type ProtectedRouteProps = {
+  roles?: TenantRole[];
+  /** Where to send unauthenticated users (default: public client login). */
+  loginPath?: string;
+};
+
+export function ProtectedRoute({
+  roles,
+  loginPath = ROUTES.login,
+}: ProtectedRouteProps) {
   const { isAuthenticated, isBootstrapping, hasRole } = useAuth();
   const location = useLocation();
 
@@ -15,7 +25,7 @@ export function ProtectedRoute({ roles }: { roles?: TenantRole[] }) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+    return <Navigate to={loginPath} replace state={{ from: location.pathname }} />;
   }
 
   if (roles && roles.length > 0 && !hasRole(...roles)) {
@@ -25,7 +35,12 @@ export function ProtectedRoute({ roles }: { roles?: TenantRole[] }) {
   return <Outlet />;
 }
 
-export function GuestRoute() {
+type GuestRouteProps = {
+  /** Where authenticated users go instead of the guest page. */
+  redirectTo?: string;
+};
+
+export function GuestRoute({ redirectTo = ROUTES.cliente.root }: GuestRouteProps) {
   const { isAuthenticated, isBootstrapping } = useAuth();
 
   if (isBootstrapping) {
@@ -37,7 +52,7 @@ export function GuestRoute() {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={redirectTo} replace />;
   }
 
   return <Outlet />;

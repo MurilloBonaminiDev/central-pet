@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button, Card, CardHeader, CardTitle, Text } from '@central-pet/ui';
+import { ROUTES } from '@app/router/paths';
 
 export function AccessDeniedPage() {
   return (
@@ -11,9 +12,16 @@ export function AccessDeniedPage() {
         <Text muted className="mb-4">
           Seu perfil nesta empresa não tem permissão para acessar este recurso.
         </Text>
-        <Link to="/dashboard" className="inline-flex">
-          <Button type="button">Voltar ao dashboard</Button>
-        </Link>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <Link to={ROUTES.admin.dashboard} className="inline-flex">
+            <Button type="button">Área administrativa</Button>
+          </Link>
+          <Link to={ROUTES.home} className="inline-flex">
+            <Button type="button" variant="secondary">
+              Site público
+            </Button>
+          </Link>
+        </div>
       </Card>
     </div>
   );

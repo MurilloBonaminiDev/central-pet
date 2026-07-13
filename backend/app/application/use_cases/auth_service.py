@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import re
+import unicodedata
 import uuid
 from datetime import UTC, datetime, timedelta
+
+from sqlalchemy.exc import IntegrityError
 
 from app.application.dto.auth import (
     ForgotPasswordResultDTO,
@@ -14,9 +18,11 @@ from app.core.config import settings
 from app.domain.exceptions import (
     AuthenticationError,
     AuthorizationError,
+    ConflictError,
     PasswordResetError,
     TenantAccessError,
     TokenError,
+    ValidationError,
 )
 from app.domain.value_objects.roles import TenantRole
 from app.infrastructure.database.models import PasswordResetTokenModel, RefreshTokenModel
@@ -31,9 +37,68 @@ from app.infrastructure.security.password import hash_password, verify_password
 from app.infrastructure.security.tokens import generate_url_safe_token, hash_token
 
 
+def _slugify(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value)
+    ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
+    slug = re.sub(r"[^a-z0-9]+", "-", ascii_text.lower()).strip("-")
+    return (slug[:80] or "clinica").rstrip("-")
+
+
 class AuthService:
     def __init__(self, repo: AuthRepository) -> None:
         self._repo = repo
+
+    def register(
+        self,
+        *,
+        clinic_name: str,
+        full_name: str,
+        email: str,
+        password: str,
+    ) -> LoginResultDTO:
+        clinic = clinic_name.strip()
+        name = full_name.strip()
+        if len(clinic) < 2:
+            raise ValidationError("Informe o nome da clínica")
+        if len(name) < 2:
+            raise ValidationError("Informe o nome completo")
+        if len(password) < 8:
+            raise ValidationError("A senha deve ter pelo menos 8 caracteres")
+
+        if self._repo.get_user_by_email(email) is not None:
+            raise ConflictError("Já existe uma conta com este e-mail")
+
+        base_slug = _slugify(clinic)
+        slug = base_slug
+        suffix = 2
+        while self._repo.get_tenant_by_slug(slug) is not None:
+            candidate = f"{base_slug[:76]}-{suffix}"
+            slug = candidate[:80]
+            suffix += 1
+            if suffix > 100:
+                raise ConflictError("Não foi possível gerar um identificador único para a clínica")
+
+        try:
+            tenant, user, membership = self._repo.create_tenant_with_admin(
+                tenant_name=clinic,
+                tenant_slug=slug,
+                email=email,
+                full_name=name,
+                password_hash=hash_password(password),
+                role=TenantRole.ADMINISTRATOR.value,
+            )
+        except IntegrityError as exc:
+            raise ConflictError("E-mail ou clínica já cadastrados") from exc
+
+        tokens, session = self._issue_session(
+            user_id=user.id,
+            email=user.email,
+            full_name=user.full_name,
+            tenant_id=tenant.id,
+            tenant_name=tenant.name,
+            role=membership.role,
+        )
+        return LoginResultDTO(tokens=tokens, session=session)
 
     def login(self, email: str, password: str, tenant_id: str | None = None) -> LoginResultDTO:
         user = self._repo.get_user_by_email(email)

@@ -9,6 +9,7 @@ from app.api.v1.schemas.auth import (
     LoginRequest,
     LogoutRequest,
     RefreshRequest,
+    RegisterRequest,
     ResetPasswordRequest,
 )
 from app.application.dto.auth import (
@@ -21,10 +22,12 @@ from app.application.use_cases.auth_service import AuthService
 from app.domain.exceptions import (
     AuthenticationError,
     AuthorizationError,
+    ConflictError,
     DomainError,
     PasswordResetError,
     TenantAccessError,
     TokenError,
+    ValidationError,
 )
 from app.domain.value_objects.roles import ROLE_LABELS_PT, TenantRole
 from app.infrastructure.security.jwt import TokenValidationError, decode_token
@@ -37,7 +40,9 @@ def _http_error(exc: DomainError) -> HTTPException:
         return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=exc.message)
     if isinstance(exc, (AuthorizationError, TenantAccessError)):
         return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=exc.message)
-    if isinstance(exc, PasswordResetError):
+    if isinstance(exc, ConflictError):
+        return HTTPException(status_code=status.HTTP_409_CONFLICT, detail=exc.message)
+    if isinstance(exc, (PasswordResetError, ValidationError)):
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=exc.message)
     return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=exc.message)
 
@@ -49,6 +54,22 @@ def login(
 ) -> LoginResultDTO:
     try:
         return service.login(email=body.email, password=body.password, tenant_id=body.tenant_id)
+    except DomainError as exc:
+        raise _http_error(exc) from exc
+
+
+@router.post("/register", response_model=LoginResultDTO, status_code=status.HTTP_201_CREATED)
+def register(
+    body: RegisterRequest,
+    service: AuthService = Depends(get_auth_service),
+) -> LoginResultDTO:
+    try:
+        return service.register(
+            clinic_name=body.clinic_name,
+            full_name=body.full_name,
+            email=body.email,
+            password=body.password,
+        )
     except DomainError as exc:
         raise _http_error(exc) from exc
 

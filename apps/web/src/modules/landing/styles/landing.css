@@ -1,0 +1,187 @@
+@keyframes landing-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes landing-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.6rem);
+  }
+}
+
+.landing-hero-title {
+  animation: landing-fade-up 0.7s ease-out both;
+}
+
+.landing-hero-subtitle {
+  animation: landing-fade-up 0.7s ease-out 0.12s both;
+}
+
+.landing-hero-actions {
+  animation: landing-fade-up 0.7s ease-out 0.24s both;
+}
+
+.landing-hero-visual {
+  animation: landing-fade-in 0.9s ease-out 0.2s both;
+}
+
+.landing-hero-visual-inner {
+  animation: landing-float 5.5s ease-in-out 0.9s infinite;
+}
+
+.home-nav-link {
+  transition: color 0.2s ease;
+}
+
+.home-nav-link:hover {
+  color: var(--color-fg);
+}
+
+.home-logo {
+  transition: opacity 0.2s ease;
+}
+
+.home-logo:hover {
+  opacity: 0.92;
+}
+
+.home-glass-card {
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.home-glass-card:hover {
+  transform: translateY(-0.2rem);
+  border-color: color-mix(in srgb, var(--color-brand-400) 45%, var(--color-border));
+  box-shadow: var(--shadow-md);
+}
+
+.home-hours-row {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.home-hours-row:hover {
+  transform: translateY(-0.15rem);
+  box-shadow: var(--shadow-sm);
+}
+
+.home-map-frame {
+  transition: box-shadow 0.28s ease;
+}
+
+.home-map-frame:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.home-footer-link {
+  color: var(--color-brand-200);
+  transition: color 0.2s ease;
+}
+
+.home-footer-link:hover {
+  color: white;
+}
+
+.home-whatsapp-fab {
+  animation: landing-fade-in 0.6s ease-out 0.5s both;
+}
+
+.service-card {
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-0.3rem);
+  border-color: color-mix(in srgb, var(--color-brand-400) 50%, var(--color-border));
+  box-shadow: var(--shadow-lg);
+}
+
+.service-card-image {
+  transition: transform 0.45s ease;
+}
+
+.service-card:hover .service-card-image {
+  transform: scale(1.04);
+}
+
+.product-card {
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-0.3rem);
+  border-color: color-mix(in srgb, var(--color-brand-400) 50%, var(--color-border));
+  box-shadow: var(--shadow-lg);
+}
+
+.product-card-image {
+  transition: transform 0.45s ease;
+}
+
+.product-card:hover .product-card-image {
+  transform: scale(1.04);
+}
+
+.home-hero-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(0 0 0 / 45%) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-hero-title,
+  .landing-hero-subtitle,
+  .landing-hero-actions,
+  .landing-hero-visual,
+  .landing-hero-visual-inner,
+  .home-whatsapp-fab {
+    animation: none;
+  }
+
+  .home-glass-card,
+  .home-hours-row,
+  .home-glass-card:hover,
+  .home-hours-row:hover,
+  .service-card,
+  .service-card:hover,
+  .service-card-image,
+  .service-card:hover .service-card-image,
+  .product-card,
+  .product-card:hover,
+  .product-card-image,
+  .product-card:hover .product-card-image {
+    transform: none;
+    transition: none;
+  }
+}

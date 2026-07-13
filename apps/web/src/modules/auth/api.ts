@@ -113,6 +113,23 @@ export const authApi = {
       skipAuth: true,
     });
   },
+  register(input: {
+    clinicName: string;
+    fullName: string;
+    email: string;
+    password: string;
+  }) {
+    return request<LoginResponse>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        clinic_name: input.clinicName,
+        full_name: input.fullName,
+        email: input.email,
+        password: input.password,
+      }),
+      skipAuth: true,
+    });
+  },
   listRoles() {
     return request<{ roles: Array<{ id: string; label: string }> }>('/auth/roles', {
       method: 'GET',

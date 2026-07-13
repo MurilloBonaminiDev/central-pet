@@ -52,6 +52,50 @@ class AuthRepository:
     def get_tenant(self, tenant_id: uuid.UUID) -> TenantModel | None:
         return self._db.get(TenantModel, tenant_id)
 
+    def get_tenant_by_slug(self, slug: str) -> TenantModel | None:
+        stmt = select(TenantModel).where(TenantModel.slug == slug)
+        return self._db.scalar(stmt)
+
+    def create_tenant_with_admin(
+        self,
+        *,
+        tenant_name: str,
+        tenant_slug: str,
+        email: str,
+        full_name: str,
+        password_hash: str,
+        role: str,
+    ) -> tuple[TenantModel, UserModel, MembershipModel]:
+        tenant = TenantModel(
+            id=uuid.uuid4(),
+            name=tenant_name,
+            slug=tenant_slug,
+            is_active=True,
+        )
+        user = UserModel(
+            id=uuid.uuid4(),
+            email=email.lower().strip(),
+            full_name=full_name.strip(),
+            password_hash=password_hash,
+            is_active=True,
+        )
+        membership = MembershipModel(
+            id=uuid.uuid4(),
+            user_id=user.id,
+            tenant_id=tenant.id,
+            role=role,
+            is_active=True,
+        )
+        self._db.add(tenant)
+        self._db.add(user)
+        self._db.add(membership)
+        self._db.commit()
+        self._db.refresh(tenant)
+        self._db.refresh(user)
+        self._db.refresh(membership)
+        membership.tenant = tenant
+        return tenant, user, membership
+
     def save_refresh_token(self, token: RefreshTokenModel) -> RefreshTokenModel:
         self._db.add(token)
         self._db.commit()

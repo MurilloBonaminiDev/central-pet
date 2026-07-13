@@ -25,6 +25,13 @@ class LoginRequest(BaseModel):
     tenant_id: str | None = None
 
 
+class RegisterRequest(BaseModel):
+    clinic_name: str = Field(min_length=2, max_length=160)
+    full_name: str = Field(min_length=2, max_length=160)
+    email: AuthEmail
+    password: str = Field(min_length=8, max_length=128)
+
+
 class RefreshRequest(BaseModel):
     refresh_token: str
 

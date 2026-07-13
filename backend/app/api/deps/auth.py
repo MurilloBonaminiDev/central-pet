@@ -113,7 +113,21 @@ RequireFinancial = Annotated[
     AuthenticatedPrincipal,
     Depends(require_roles(TenantRole.FINANCIAL, TenantRole.ADMINISTRATOR)),
 ]
+RequireFinanceStaff = Annotated[
+    AuthenticatedPrincipal,
+    Depends(
+        require_roles(
+            TenantRole.FINANCIAL,
+            TenantRole.RECEPTION,
+            TenantRole.ADMINISTRATOR,
+        )
+    ),
+]
 RequireGrooming = Annotated[
     AuthenticatedPrincipal,
     Depends(require_roles(TenantRole.GROOMING, TenantRole.ADMINISTRATOR)),
+]
+RequireServiceManager = Annotated[
+    AuthenticatedPrincipal,
+    Depends(require_roles(TenantRole.RECEPTION, TenantRole.ADMINISTRATOR)),
 ]

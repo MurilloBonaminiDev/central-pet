@@ -666,12 +666,16 @@ Trocar provedor = novo adapter, sem alterar domínio.
 | Categoria | Exemplos de capacidade | Padrão |
 |-----------|------------------------|--------|
 | Comunicação | WhatsApp, e-mail, SMS | Gateway + templates |
+| **Agenda inbound** | WhatsApp → agendamento `PENDENTE` | Port + webhook + `create_from_channel` |
 | Pagamentos | PSP / PIX / cartão | Gateway + webhooks idempotentes |
 | Fiscal | NFe / NFS-e | Gateway + fila + retry |
 | Agenda / canais | Google Calendar, etc. | Sync jobs + conflict policy |
 | Contábil/ERP | Exportações | Anti-corruption layer |
 | Identidade | SSO enterprise | Auth provider adapter |
 | Analytics | BI / warehouse | Event outbox → ETL |
+
+> Preparação WhatsApp inbound: ver `docs/architecture/whatsapp-inbound-booking.md`.
+> Endpoints stub: `GET/POST /api/v1/webhooks/whatsapp` (501 enquanto `WHATSAPP_WEBHOOKS_ENABLED=false`).
 
 ### 11.3 Event-Driven readiness
 
